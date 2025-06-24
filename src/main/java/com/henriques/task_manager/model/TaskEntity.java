@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "task")
+@Table(name = "task", schema = "schema_task")
 public class TaskEntity {
 
     @Id
