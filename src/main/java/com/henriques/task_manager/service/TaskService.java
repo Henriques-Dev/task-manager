@@ -2,6 +2,8 @@ package com.henriques.task_manager.service;
 
 import com.henriques.task_manager.api.Priority;
 import com.henriques.task_manager.api.Status;
+import com.henriques.task_manager.api.TaskDTO;
+import com.henriques.task_manager.mapper.TaskConvert;
 import com.henriques.task_manager.model.TaskEntity;
 import com.henriques.task_manager.repository.TaskRepository;
 import jakarta.annotation.PostConstruct;
@@ -13,27 +15,36 @@ import java.time.Instant;
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private final TaskConvert taskConvert;
 
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository, TaskConvert taskConvert) {
         this.taskRepository = taskRepository;
+        this.taskConvert = taskConvert;
     }
 
     @PostConstruct
     private void generateRandomTask() {
-        TaskEntity taskEntity = new TaskEntity();
-        taskEntity.setTitle("Tarefa Task");
-        taskEntity.setDescription("Tarefa teste.");
-        taskEntity.setStatus(Status.InProgress);
-        taskEntity.setPriority(Priority.High);
-        taskEntity.setUpdateOn(Instant.now());
-        taskEntity.setExpiredOn(Instant.now());
-        taskEntity.setCreatedOn(Instant.now());
+        TaskDTO taskDTO = new TaskDTO();
 
-        saveTask(taskEntity);
+        taskDTO.setTitle("Aula de violão");
+        taskDTO.setDescription("Praticar escala maior");
+        taskDTO.setStatus(Status.InProgress);
+        taskDTO.setPriority(Priority.Low);
+        taskDTO.setUpdateOn(Instant.now());
+        taskDTO.setExpiredOn(Instant.now());
+        taskDTO.setCreatedOn(Instant.now());
+
+        saveTask(taskDTO);
 
     }
 
-    public void saveTask(TaskEntity taskEntity) {
-        taskRepository.save(taskEntity);
+    public void saveTask(TaskDTO taskDTO) {
+
+        try {
+            TaskEntity taskEntity = taskConvert.convert(taskDTO);
+            taskRepository.save(taskEntity);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Erro ao salvar a tarefa: " + e.getMessage());
+        }
     }
 }
