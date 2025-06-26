@@ -1,8 +1,10 @@
 package com.henriques.task_manager.api;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 
 public class TaskDTO {
@@ -13,7 +15,7 @@ public class TaskDTO {
     private String title;
     private Instant createdOn;
     private Instant updateOn;
-    @NotEmpty(message = "Expire should not be empty, please, set a date")
+    @NotNull(message = "Expire should not be empty, please, set a date")
     private Instant expiredOn;
     private Priority priority;
     private Status status;
@@ -86,4 +88,25 @@ public class TaskDTO {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TaskDTO)) return false;
+        TaskDTO taskDTO = (TaskDTO) o;
+        return Objects.equals(id, taskDTO.id) &&
+                Objects.equals(title, taskDTO.title) &&
+                Objects.equals(createdOn, taskDTO.createdOn) &&
+                Objects.equals(updateOn, taskDTO.updateOn) &&
+                Objects.equals(expiredOn, taskDTO.expiredOn) &&
+                priority == taskDTO.priority &&
+                status == taskDTO.status &&
+                Objects.equals(description, taskDTO.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, createdOn, updateOn, expiredOn, priority, status, description);
+    }
+
 }
