@@ -2,7 +2,7 @@ package com.henriques.task_manager.service;
 
 import com.henriques.task_manager.api.Priority;
 import com.henriques.task_manager.api.Status;
-import com.henriques.task_manager.api.TaskDTO;
+import com.henriques.task_manager.api.TaskDto;
 import com.henriques.task_manager.convert.TaskConvert;
 import com.henriques.task_manager.model.TaskEntity;
 import com.henriques.task_manager.repository.TaskRepository;
@@ -34,7 +34,7 @@ public class TaskServiceTest {
 
     @Test
     public void saveTaskTest() {
-        TaskDTO taskDTO = new TaskDTO();
+        TaskDto taskDTO = new TaskDto();
         TaskEntity taskEntity = new TaskEntity();
 
         when(taskConvert.convertTaskDtoToTaskEntity(taskDTO)).thenReturn(taskEntity);
@@ -52,13 +52,13 @@ public class TaskServiceTest {
         taskEntity.setId(id);
 
         when(taskRepository.findById(id)).thenReturn(Optional.of(taskEntity));
-        TaskDTO taskDTO = new TaskDTO();
+        TaskDto taskDTO = new TaskDto();
         when(taskConvert.convertTaskEntityToTaskDto(taskEntity)).thenReturn(taskDTO);
 
-        TaskDTO taskDTOResult = taskService.getTaskById(id);
+        TaskDto taskDtoResult = taskService.getTaskById(id);
 
-        assertNotNull(taskDTOResult);
-        assertEquals(taskDTO, taskDTOResult);
+        assertNotNull(taskDtoResult);
+        assertEquals(taskDTO, taskDtoResult);
 
         verify(taskRepository, times(1)).findById(id);
         verify(taskConvert, times(1)).convertTaskEntityToTaskDto(taskEntity);
@@ -75,13 +75,13 @@ public class TaskServiceTest {
 
     @Test
     public void updateTaskTest() {
-        TaskDTO taskDTO = new TaskDTO();
+        TaskDto taskDTO = new TaskDto();
         Instant date = Instant.parse("2023-08-21T12:00:00Z");
 
         taskDTO.setId(UUID.randomUUID());
         taskDTO.setTitle("Test Task Updated");
-        taskDTO.setExpiredOn(date);
-        taskDTO.setUpdateOn(date);
+        taskDTO.setExpireOn(date);
+        taskDTO.setUpdatedOn(date);
         taskDTO.setCreatedOn(date);
         taskDTO.setStatus(Status.InProgress);
         taskDTO.setDescription("Test Description Updated");
@@ -117,15 +117,15 @@ public class TaskServiceTest {
         TaskEntity task2 = new TaskEntity();
         when(taskRepository.findAllByOrderByCreatedOnDesc()).thenReturn(List.of(task1, task2));
 
-        TaskDTO dto1 = new TaskDTO();
-        TaskDTO dto2 = new TaskDTO();
+        TaskDto dto1 = new TaskDto();
+        TaskDto dto2 = new TaskDto();
         when(taskConvert.convertTaskEntityToTaskDto(task1)).thenReturn(dto1);
         when(taskConvert.convertTaskEntityToTaskDto(task2)).thenReturn(dto2);
 
-        List<TaskDTO> taskDTOList = taskService.getAllTasks();
+        List<TaskDto> taskDtoList = taskService.getAllTasks();
 
-        assertNotNull(taskDTOList);
-        assertEquals(2, taskDTOList.size());
+        assertNotNull(taskDtoList);
+        assertEquals(2, taskDtoList.size());
 
         verify(taskRepository, times(1)).findAllByOrderByCreatedOnDesc();
         verify(taskConvert, times(2)).convertTaskEntityToTaskDto(any(TaskEntity.class));

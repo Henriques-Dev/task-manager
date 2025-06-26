@@ -7,22 +7,22 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
-public class TaskDTO {
+public class TaskDto {
 
 
     private UUID id;
     @NotEmpty(message = "Tittle should not be empty")
     private String title;
     private Instant createdOn;
-    private Instant updateOn;
+    private Instant updatedOn;
     @NotNull(message = "Expire should not be empty, please, set a date")
-    private Instant expiredOn;
+    private Instant expireOn;
     private Priority priority;
     private Status status;
     @NotEmpty(message = "Description should not be empty")
     private String description;
 
-    public TaskDTO() {
+    public TaskDto() {
     }
 
     public UUID getId() {
@@ -49,20 +49,20 @@ public class TaskDTO {
         this.createdOn = createdOn;
     }
 
-    public Instant getUpdateOn() {
-        return updateOn;
+    public Instant getUpdatedOn() {
+        return updatedOn;
     }
 
-    public void setUpdateOn(Instant updateOn) {
-        this.updateOn = updateOn;
+    public void setUpdatedOn(Instant updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
-    public Instant getExpiredOn() {
-        return expiredOn;
+    public Instant getExpireOn() {
+        return expireOn;
     }
 
-    public void setExpiredOn(Instant expiredOn) {
-        this.expiredOn = expiredOn;
+    public void setExpireOn(Instant expireOn) {
+        this.expireOn = expireOn;
     }
 
     public Priority getPriority() {
@@ -92,13 +92,13 @@ public class TaskDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TaskDTO)) return false;
-        TaskDTO taskDTO = (TaskDTO) o;
+        if (!(o instanceof TaskDto)) return false;
+        TaskDto taskDTO = (TaskDto) o;
         return Objects.equals(id, taskDTO.id) &&
                 Objects.equals(title, taskDTO.title) &&
                 Objects.equals(createdOn, taskDTO.createdOn) &&
-                Objects.equals(updateOn, taskDTO.updateOn) &&
-                Objects.equals(expiredOn, taskDTO.expiredOn) &&
+                Objects.equals(updatedOn, taskDTO.updatedOn) &&
+                Objects.equals(expireOn, taskDTO.expireOn) &&
                 priority == taskDTO.priority &&
                 status == taskDTO.status &&
                 Objects.equals(description, taskDTO.description);
@@ -106,7 +106,7 @@ public class TaskDTO {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, createdOn, updateOn, expiredOn, priority, status, description);
+        return Objects.hash(id, title, createdOn, updatedOn, expireOn, priority, status, description);
     }
 
 }

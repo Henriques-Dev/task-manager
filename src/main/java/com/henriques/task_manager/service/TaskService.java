@@ -1,6 +1,6 @@
 package com.henriques.task_manager.service;
 
-import com.henriques.task_manager.api.TaskDTO;
+import com.henriques.task_manager.api.TaskDto;
 import com.henriques.task_manager.exceptions.TaskNotFoundException;
 import com.henriques.task_manager.convert.TaskConvert;
 import com.henriques.task_manager.model.TaskEntity;
@@ -24,7 +24,7 @@ public class TaskService {
         this.taskConvert = taskConvert;
     }
 
-    public void saveTask(TaskDTO taskDTO) {
+    public void saveTask(TaskDto taskDTO) {
 
         try {
             TaskEntity taskEntity = taskConvert.convertTaskDtoToTaskEntity(taskDTO);
@@ -34,7 +34,7 @@ public class TaskService {
         }
     }
 
-    public TaskDTO getTaskById(UUID id) {
+    public TaskDto getTaskById(UUID id) {
         Optional<TaskEntity> optionalTask = taskRepository.findById(id);
 
         if (optionalTask.isPresent()) {
@@ -48,7 +48,7 @@ public class TaskService {
         taskRepository.deleteById(id);
     }
 
-    public void updateTask(TaskDTO taskDTO) {
+    public void updateTask(TaskDto taskDTO) {
         try {
             Optional<TaskEntity> optionalTask = taskRepository.findById(taskDTO.getId());
 
@@ -59,7 +59,7 @@ public class TaskService {
                 taskEntity.setDescription(taskDTO.getDescription());
                 taskEntity.setPriority(taskDTO.getPriority());
                 taskEntity.setStatus(taskDTO.getStatus());
-                taskEntity.setExpiredOn(taskDTO.getExpiredOn());
+                taskEntity.setExpiredOn(taskDTO.getExpireOn());
                 taskEntity.setUpdateOn(Instant.now());
 
                 taskRepository.save(taskEntity);
@@ -71,7 +71,7 @@ public class TaskService {
         }
     }
 
-    public List<TaskDTO> getAllTasks() {
+    public List<TaskDto> getAllTasks() {
         return taskRepository.findAllByOrderByCreatedOnDesc()
                 .stream()
                 .map(taskConvert::convertTaskEntityToTaskDto)
