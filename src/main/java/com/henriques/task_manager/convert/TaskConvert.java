@@ -1,4 +1,4 @@
-package com.henriques.task_manager.mapper;
+package com.henriques.task_manager.convert;
 
 import com.henriques.task_manager.api.TaskDTO;
 import com.henriques.task_manager.model.TaskEntity;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TaskConvert {
 
-    public TaskEntity convert(TaskDTO taskDTO) {
+    public TaskEntity convertTaskDtoToTaskEntity(TaskDTO taskDTO) {
         TaskEntity taskEntity = new TaskEntity();
 
         taskEntity.setTitle(taskDTO.getTitle());
@@ -20,7 +20,7 @@ public class TaskConvert {
         return taskEntity;
     }
 
-    public TaskDTO convert(TaskEntity taskEntity) {
+    public TaskDTO convertTaskEntityToTaskDto(TaskEntity taskEntity) {
         TaskDTO taskDTO = new TaskDTO();
         taskDTO.setId(taskEntity.getId());
         taskDTO.setTitle(taskEntity.getTitle());
