@@ -1,5 +1,7 @@
 package com.henriques.task_manager.service;
 
+import com.henriques.task_manager.api.Priority;
+import com.henriques.task_manager.api.Status;
 import com.henriques.task_manager.api.TaskDto;
 import com.henriques.task_manager.exceptions.TaskNotFoundException;
 import com.henriques.task_manager.convert.TaskConvert;
@@ -8,6 +10,7 @@ import com.henriques.task_manager.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -76,5 +79,13 @@ public class TaskService {
                 .stream()
                 .map(taskConvert::convertTaskEntityToTaskDto)
                 .collect(Collectors.toList());
+    }
+
+    public List<String> getPriorities() {
+        return Arrays.asList(Priority.Low.toString(), Priority.Normal.toString(), Priority.High.toString());
+    }
+
+    public List<String> getStatus() {
+        return Arrays.asList(Status.ToDo.toString(), Status.InProgress.toString(), Status.Done.toString());
     }
 }

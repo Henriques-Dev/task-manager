@@ -32,6 +32,9 @@ public class TaskController {
         ModelAndView mv = new ModelAndView("new-task");
         mv.addObject("taskDto", new TaskDto());
 
+        mv.addObject("priorities", taskService.getPriorities());
+        mv.addObject("statusList", taskService.getStatus());
+
         return mv;
     }
 }
